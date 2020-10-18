@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="COSMOTEQ">
+    <title>Taskline v1.0</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/mdb.min.css" rel="stylesheet">
+
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/locales/ru.js' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js'></script>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendarScreen');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+      });
+
+    </script>
+    
+    <!-- Favicons -->
+<!--
+    <link rel="apple-touch-icon" href="/docs/4.4/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/4.4/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/4.4/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
+    <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon.ico">
+    <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#563d7c">
+-->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css' rel='stylesheet'>
+
+    <style>
+
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+
+body {
+   padding-top:55px;
+   font-family: "Roboto";
+   background: #ffffff;
+   margin-bottom: 60px;
+   overflow:hidden;
+}
+
+.timeline {
+    padding: 10px 0;
+    position: relative;
+}
+.timeline h5, .timeline p {
+    padding: 5px 15px;
+}
+.timeline h5, .timeline .txt {
+    padding: 5px 15px;
+    margin-bottom:15px;
+}
+.timeline h5{
+    font-weight: lighter;
+    background: #1b83fc;
+    border-radius: 10px 10px 0px 0px;
+}
+.timeline p, .timeline time {
+    color: #303030;
+}
+.task_title {
+    font-weight:bold;
+}
+.timeline-content {
+    border: 1px solid var(--blue);
+    position: relative;
+    border-radius: 12px 12px 10px 10px;
+    box-shadow: 0px 3px 25px 0px rgba(10, 55, 90, 0.1);
+    margin-bottom:15px;
+}
+
+.containerx {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.navbar {
+   padding:0;
+   padding-right:15px;
+}
+
+.nav {
+  white-space: nowrap;
+  display:block!important;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch
+}
+
+.nav li {
+  display: inline-block
+}
+
+.nav-item .nav-link {
+   margin-right:20px;
+}
+
+.nav-tabs .nav-link {
+    border-top: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+    border-left: 1px solid #d0d0d0;
+    border-bottom: 1px solid #d0d0d0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    width:140px;
+    text-align:center;
+    margin-right:1px;
+    background-color: #fcfcfc;
+}
+
+.nav-tabs .nav-link:hover {
+    border-top: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+    border-left: 1px solid #d0d0d0;
+    border-bottom: 1px solid #d0d0d0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background-color: #ffffff;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active, .nav-tabs .nav-link.focus {
+    color: #ffffff;
+    background-color: #1b83fc;
+    border-color: #1b83fc #1b83fc #1b83fc;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom: 1px solid #1b83fc;
+}
+
+.tabbable .nav-tabs {
+   overflow-x: scroll !important;
+   overflow-y:hidden;
+   flex-wrap: nowrap;
+   margin-top:12px;
+   border-bottom: 0;
+}
+
+.tabbable .nav-tabs .nav-link {
+  white-space: nowrap;
+}
+
+.tabbable .nav-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.tabbable .nav-tabs {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.search-area {
+   overflow-x: scroll;
+   overflow-y:hidden;
+   flex-wrap: nowrap;
+   margin-top:2px;
+   border-bottom: 0;
+}
+.search-area {
+  white-space: nowrap;
+}
+
+.search-area::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.search-area {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.btn-success
+{
+   background-color: #3fb424;
+   border-color: #3fb424;
+   border-radius: 6px;
+   font-weight: normal;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open>.dropdown-toggle.btn-success {
+    background-color: #339f1a;
+    border-color: #339f1a;
+}
+
+.btn-primary
+{
+   font-weight: normal;
+   padding-left:5px;
+   padding-right:5px;
+   padding-top:1px;
+   padding-bottom:1px;
+   background-color: #146acd;
+   border-color: #146acd;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    background-color: #105cb5;
+    border-color: #105cb5;
+}
+
+.f-row
+{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.f-block
+{
+  width: auto;
+}
+
+.add-task-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
+
+@media (min-width: 300px) {
+   .form-inline .custom-select, .form-inline .input-group {
+      width:auto;
+   }
+}
+
+.bg-light {
+   background-color: #f8f8f8!important;
+}
+
+    </style>
+  </head>
+  <body>
+  
+    <nav class="navbar navbar-expand-xl navbar-light fixed-top bg-light">
+  <a class="navbar-brand" href="#"><img alt="Taskline" src="assets/img/logo-main.svg" border=0 style="width:auto;height:40px;margin-left:15px;margin-right:25px;margin-top:2px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#"><img src="assets/img/home.svg" style="width:16px;height:16px;border:0;margin-top:-3px;"> Главная <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><img src="assets/img/user.svg" style="width:17px;height:17px;border:0;margin-top:-3px;"> Команды</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><img src="assets/img/box.svg" style="width:17px;height:17px;border:0;margin-top:-3px;"> Проекты</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onClick="showReports();return false;"><img src="assets/img/pie-chart.svg" style="width:17px;height:17px;border:0;margin-top:-3px;"> Отчеты</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onClick="doImport();return false;"><img src="assets/img/cast.svg" style="width:17px;height:17px;border:0;margin-top:-3px;"> Импорт</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onClick="toggleCalendar();return false;"><img src="assets/img/calendar.svg" style="width:17px;height:17px;border:0;margin-top:-3px;"> Календарь</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><img src="assets/img/settings.svg" style="width:16px;height:16px;border:0;margin-top:-3px;"> Настройки</a>
+      </li>
+    </ul>
+    <a href="#" role="button" class="btn btn-success btn-sm my-2 my-sm-0">Профиль</a>
+  </div>
+</nav>
+
+<div class="containerx">
+   <div class="row" id="mainScreen">
+      <div class="col-lg-4">
+         <div class="tabbable">
+         <ul class="nav nav-tabs" id="taskTab" role="tablist">
+            <li class="nav-item">
+               <a class="nav-link active" href="#backlog" id="backlog-tab" data-toggle="tab" role="tab" aria-controls="backlog" aria-selected="true">Бэклог</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#plan" id="plan-tab" data-toggle="tab" role="tab" aria-controls="plan" aria-selected="false">Планируются</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#inprogress" id="inprogress-tab" data-toggle="tab" role="tab" aria-controls="inprogress" aria-selected="false">В работе</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#done" id="done-tab" data-toggle="tab" role="tab" aria-controls="done" aria-selected="false">Сделано</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#control" id="control-tab" data-toggle="tab" role="tab" aria-controls="control" aria-selected="false">Контроль</a>
+            </li>            
+            <li class="nav-item">
+               <a class="nav-link" href="#deadline" id="deadline-tab" data-toggle="tab" role="tab" aria-controls="deadline" aria-selected="false">Дедлайн</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#all" id="all-tab" data-toggle="tab" role="tab" aria-controls="all" aria-selected="false">Все</a>
+            </li>
+         </ul>
+         </div>
+         <div class="tab-content" id="tasklineTabContent">
+            <div class="tab-pane fade show active" id="backlog" role="tabpanel" aria-labelledby="backlog-tab">
+                  <div id="tasksContainer1Backlog"></div>
+            </div>
+            <div class="tab-pane fade show" id="plan" role="tabpanel" aria-labelledby="plan-tab">
+               <div id="tasksContainer1Planning"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="inprogress" role="tabpanel" aria-labelledby="inprogress-tab">
+               <div id="tasksContainer1InProgress"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="done" role="tabpanel" aria-labelledby="done-tab">
+               <div id="tasksContainer1Done"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="control" role="tabpanel" aria-labelledby="control-tab">
+               <div id="tasksContainer1Control"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="deadline" role="tabpanel" aria-labelledby="deadline-tab">
+               <div id="tasksContainer1Deadline"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="all" role="tabpanel" aria-labelledby="all-tab">
+               <div id="tasksContainer1All"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+         </div>
+      </div>
+      <div class="col-lg-4">
+         <div class="tabbable">
+         <ul class="nav nav-tabs" id="taskTab" role="tablist">
+            <li class="nav-item">
+               <a class="nav-link active" href="#backlog2" id="backlog2-tab" data-toggle="tab" role="tab" aria-controls="backlog2" aria-selected="true">Бэклог</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#plan2" id="plan2-tab" data-toggle="tab" role="tab" aria-controls="plan2" aria-selected="false">Планируются</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#inprogress2" id="inprogress2-tab" data-toggle="tab" role="tab" aria-controls="inprogress2" aria-selected="false">В работе</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#done2" id="done2-tab" data-toggle="tab" role="tab" aria-controls="done2" aria-selected="false">Сделано</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#control2" id="control2-tab" data-toggle="tab" role="tab" aria-controls="control2" aria-selected="false">Контроль</a>
+            </li>            
+            <li class="nav-item">
+               <a class="nav-link" href="#deadline2" id="deadline2-tab" data-toggle="tab" role="tab" aria-controls="deadline2" aria-selected="false">Дедлайн</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#all2" id="all2-tab" data-toggle="tab" role="tab" aria-controls="all2" aria-selected="false">Все</a>
+            </li>
+         </ul>
+         </div>
+         <div class="tab-content" id="tasklineTabContent">
+            <div class="tab-pane fade show active" id="backlog2" role="tabpanel" aria-labelledby="backlog2-tab">
+               <div id="tasksContainer2Backlog"></div>
+            </div>
+            <div class="tab-pane fade show" id="plan2" role="tabpanel" aria-labelledby="plan2-tab">
+               <div id="tasksContainer2Planning"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="inprogress2" role="tabpanel" aria-labelledby="inprogress2-tab">
+               <div id="tasksContainer2InProgress"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="done2" role="tabpanel" aria-labelledby="done2-tab">
+               <div id="tasksContainer2Done"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="control2" role="tabpanel" aria-labelledby="control2-tab">
+               <div id="tasksContainer2Control"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="deadline2" role="tabpanel" aria-labelledby="deadline2-tab">
+               <div id="tasksContainer2Deadline"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="all2" role="tabpanel" aria-labelledby="all2-tab">
+               <div id="tasksContainer2All"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+         </div>
+      </div>
+      <div class="col-lg-4">
+         <div class="tabbable">
+         <ul class="nav nav-tabs" id="taskTab" role="tablist">
+            <li class="nav-item">
+               <a class="nav-link active" href="#backlog3" id="backlog3-tab" data-toggle="tab" role="tab" aria-controls="backlog3" aria-selected="true">Бэклог</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#plan3" id="plan-tab" data-toggle="tab" role="tab" aria-controls="plan3" aria-selected="false">Планируются</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#inprogress3" id="inprogress3-tab" data-toggle="tab" role="tab" aria-controls="inprogress3" aria-selected="false">В работе</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#done3" id="done3-tab" data-toggle="tab" role="tab" aria-controls="done3" aria-selected="false">Сделано</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#control3" id="control3-tab" data-toggle="tab" role="tab" aria-controls="control3" aria-selected="false">Контроль</a>
+            </li>            
+            <li class="nav-item">
+               <a class="nav-link" href="#deadline3" id="deadline3-tab" data-toggle="tab" role="tab" aria-controls="deadline3" aria-selected="false">Дедлайн</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#all3" id="all3-tab" data-toggle="tab" role="tab" aria-controls="all3" aria-selected="false">Все</a>
+            </li>
+         </ul>
+         </div>
+         <div class="tab-content" id="tasklineTabContent">
+            <div class="tab-pane fade show active" id="backlog3" role="tabpanel" aria-labelledby="backlog3-tab">
+               <div id="tasksContainer3Backlog"></div>
+            </div>
+            <div class="tab-pane fade show" id="plan3" role="tabpanel" aria-labelledby="plan3-tab">
+               <div id="tasksContainer3Planning"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="inprogress3" role="tabpanel" aria-labelledby="inprogress3-tab">
+               <div id="tasksContainer3InProgress"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="done3" role="tabpanel" aria-labelledby="done3-tab">
+               <div id="tasksContainer3Done"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="control3" role="tabpanel" aria-labelledby="control3-tab">
+               <div id="tasksContainer3Control"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="deadline3" role="tabpanel" aria-labelledby="deadline3-tab">
+               <div id="tasksContainer3Deadline"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+            <div class="tab-pane fade show" id="all3" role="tabpanel" aria-labelledby="all3-tab">
+               <div id="tasksContainer3All"></div>
+               <!-- <b>Нет текущих задач.</b> -->
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="calendarScreen" style="display:none;">
+
+   </div>
+</div>
+
+
+
+<div class="add-task-button">
+   <a href="#" role="button" onClick="addNewTask();return false;" class="btn btn-success my-2 my-sm-0" style="border-radius:50%;padding:0;margin:0;"><img src="assets/img/plus-circle.svg" style="width:60px;height:60px;border:0;filter:invert(1);"></a>
+</div>
+
+<hr>
+
+<footer class="container">
+   <p class="footer-text">Copyright &copy; 2020 <a href="">Taskline</a></p>
+</footer>
+
+<!-- Add New Task Modal -->
+<div class="modal fade" id="newTaskModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header" style="background-color:#1b83fc;">
+        <h4 class="modal-title" style="color:white;">Добавить задачу</h4>
+        <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+
+         <!-- <div th:if="${operationStatus}" class="alert-danger" role="alert" style="padding:12px;">
+            <span th:utext="${operationStatus}" th:remove="tag"></span>
+         </div> -->
+         
+         <form class="mt-2" method="post" id="addNewTask">
+                     
+            <div class="form-group">
+               <label for="userLogin">Заголовок задачи <font color="red"><big>*</big></font></label>
+               <input type="text" id="taskName" name="taskName" class="form-control form-control-sm" placeholder="">
+            </div>
+            <div class="form-group">
+               <label for="userLogin">Описание задачи</label>
+               <textarea class="form-control" rows="3" id="taskDescription" name="taskDescription" placeholder=""></textarea>
+            </div>
+            <div class="f-row">
+               <div class="f-block" style="width:33%;padding-right:10px;">
+                  <div class="form-group">
+                     <label for="userLogin">Приоритет</label>
+                     <input type="text" id="taskPriority" name="taskPriority" class="form-control form-control-sm" placeholder="">
+                  </div>
+               </div>
+               <div class="f-block" style="width:33%;padding-right:10px;padding-left:10px;">
+                  <div class="form-group">
+                     <label for="userLogin">Трудоемкость</label>
+                     <input type="text" id="taskPoints" name="taskPoints" class="form-control form-control-sm" placeholder="">
+                  </div>
+               </div>
+               <div class="f-block" style="width:34%;padding-left:10px;">
+                  <div class="form-group">
+                     <label for="userLogin">Дедлайн</label>
+                     <input type="text" id="taskDeadlineTime" name="taskDeadlineTime" class="form-control form-control-sm" placeholder="">
+                  </div>
+               </div>
+            </div>
+            <div class="f-row">
+               <div class="f-block" style="width:50%;padding-right:10px;">
+                  <div class="form-group">
+                     <label for="taskRisk">Риск</label>
+                     <select class="form-control form-control-sm" name="taskRisk" id="taskRisk">
+                        <option th:value="0">Не определен</option>
+                        <option th:value="1">Низкий</option>
+                        <option th:value="2">Ниже среднего</option>
+                        <option th:value="3">Средний</option>
+                        <option th:value="4">Выше среднего</option>
+                        <option th:value="5">Высокий</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="f-block" style="width:50%;padding-left:10px;">
+                  <div class="form-group">
+                     <label for="taskCost">Стоимость</label>
+                     <select class="form-control form-control-sm" name="taskCost" id="taskCost">
+                        <option th:value="0">Не определена</option>
+                        <option th:value="1">Низкая</option>
+                        <option th:value="2">Ниже средней</option>
+                        <option th:value="3">Средняя</option>
+                        <option th:value="4">Выше средней</option>
+                        <option th:value="5">Высокая</option>
+                     </select>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <label for="assignedUserId">Исполнитель</label>
+               <select class="form-control form-control-sm" name="assignedUserId" id="assignedUserId">
+                  <option th:value="0">Не назначен</option>
+                  <option th:value="1">Иванов Иван Иванович</option>
+                </select>
+            </div>
+            <div class="f-row">
+               <div class="f-block" style="width:50%;padding-right:10px;">
+                  <div class="form-group">
+                     <label for="taskFolder">Вкладка</label>
+                     <select class="form-control form-control-sm" name="taskFolder" id="taskFolder">
+                        <option th:value="1">Бэклог</option>
+                        <option th:value="2">Планируется</option>
+                        <option th:value="3">В работе</option>
+                        <option th:value="4">Сделано</option>
+                        <option th:value="5">Контроль</option>
+                        <option th:value="6">Дедлайн</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="f-block" style="width:50%;padding-left:10px;">
+                  <div class="form-group">
+                     <label for="taskStatus">Статус</label>
+                     <select class="form-control form-control-sm" name="taskStatus" id="taskStatus">
+                        <option th:value="1">Нормальная</option>
+                        <option th:value="2">Критическая</option>
+                     </select>
+                  </div>
+               </div>
+            </div>
+            <div class="mt-2">
+               <a href="#" role="button" class="btn btn-sm btn-success col" onClick="addTask();return false;"><big>Добавить</big></a>
+            </div>
+
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Reports Modal -->
+<div class="modal fade" id="reportsModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header" style="background-color:#1b83fc;">
+        <h4 class="modal-title" style="color:white;">Отчеты</h4>
+        <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+
+      <div class="row">
+
+        <div class="col-md-12 mb-2">
+        
+                  <form class="" style="margin-bottom:15px;">
+                  <div class="f-row">
+                     <div class="f-block" style="width:33%;padding-right:10px;">
+                        <select class="form-control form-control-sm" id="inlineFormCustomSelectPref">
+                           <option value="0">Исполнитель</option>
+                           <option value="1">Иван Иваныч Иванов</option>
+                           <option value="2">Петр Петрович Петров</option>
+                        </select>
+                     </div>
+                     <div class="f-block" style="width:33%;padding-left:10px;padding-right:10px;">
+                        <div class="form-group">
+                           <input type="text" id="reportTimeFrom" name="reportTimeFrom" class="form-control form-control-sm" placeholder="От">
+                        </div>
+                     </div>
+                     <div class="f-block" style="width:34%;padding-left:10px;">
+                        <div class="form-group">
+                           <input type="text" id="reportTimeTo" name="reportTimeTo" class="form-control form-control-sm" placeholder="До">
+                        </div>                     
+                     </div>
+                  </div>
+                  </form>
+           <div class="alert alert-success">
+              Наложения задач нет.
+           </div>
+
+           <div class="alert alert-danger">
+              Срочные задачи: 2. Выполнить до 19/10/2020.
+           </div>
+           
+        </div>
+        <!--Grid column-->
+        <div class="col-md-12 mb-4">
+
+          <!--Card-->
+          <div class="card" style="background-color:#f0f0f0;">
+
+            <div class="card-header text-center" style="color:rgba(80,80,80,1);">
+              Загрузка на неделю
+            </div>
+
+            <!--Card content-->
+            <div class="card-body">
+
+              <canvas id="myChart"></canvas>
+
+            </div>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-12">
+
+          <!--Card-->
+          <div class="card mb-4" style="background-color:#f0f0f0;">
+
+            <!-- Card header -->
+            <div class="card-header text-center" style="color:rgba(80,80,80,1);">
+              Распределение задач
+            </div>
+
+            <!--Card content-->
+            <div class="card-body">
+
+              <canvas id="pieChart"></canvas>
+
+            </div>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+
+        <!--Grid column-->
+        <div class="col-md-12">
+
+          <!--Card-->
+          <div class="card mb-4" style="background-color:#f0f0f0;">
+
+            <!-- Card header -->
+            <div class="card-header text-center" style="color:rgba(80,80,80,1);">
+              График выполнения задач
+            </div>
+
+            <!--Card content-->
+            <div class="card-body">
+
+              <canvas id="lineChart"></canvas>
+
+            </div>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+
+        </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="assets/js/jquery-3.4.1.min.js"></script>
+<script>window.jQuery || document.write('<script src="assets/js/jquery.min.js"><\/script>');</script>
+<script src="assets/js/bootstrap.min.js"></script></body>
+<script type="text/javascript" src="assets/js/mdb.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js'></script>
+<script type="text/javascript">
+
+   new WOW().init();
+
+</script>
+
+<script type="text/javascript">
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ["Пон", "Вто", "Сре", "Чет", "Пят", "Суб", "Вос"],
+        datasets: [{
+          label: 'Количество задач',
+          data: [8, 3, 6, 2, 3, 0, 0],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.85)',
+            'rgba(54, 162, 235, 0.85)',
+            'rgba(255, 206, 86, 0.85)',
+            'rgba(75, 192, 192, 0.85)',
+            'rgba(153, 102, 255, 0.85)',
+            'rgba(255, 159, 64, 0.85)',
+            'rgba(255, 159, 64, 0.85)'
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              fontColor: "rgba(90,90,90,1)"
+            },
+            gridLines: {
+              color:"rgba(0,0,0,0.1)",
+              zeroLineColor:"rgba(0,0,0,0.1)"
+            } 
+          }],
+          xAxes: [{
+            ticks: {
+              fontColor: "rgba(90,90,90,1)"
+            },
+            gridLines:{
+              color:"rgba(0,0,0,0.1)",
+              zeroLineColor:"rgba(0,0,0,0.1)"
+            } 
+          }]
+        },
+        legend: {
+            labels: {
+                fontColor: "rgba(0,0,0,0.5)"
+            }
+        }
+      }
+    });
+
+    //pie
+    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data: {
+        labels: ["Бэклог", "Планируются", "В работе", "Сделано", "Контроль", "Дедлайн"],
+        datasets: [{
+          data: [300, 50, 100, 40, 60, 120],
+          backgroundColor: ["#4D5360", "#46BFBD", "#FDB45C", "#949FB1", "#B15F5B", "#F7464A"],
+          hoverBackgroundColor: ["#616774", "#5AD3D1", "#FFC870", "#A8B3C5", "#B16F6B", "#FF5A5E"]
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: false
+      }
+    });
+    
+    //line
+    var ctxL = document.getElementById("lineChart").getContext('2d');
+    var myLineChart = new Chart(ctxL, {
+      type: 'line',
+      data: {
+        labels: ["Пон", "Вто", "Сре", "Чет", "Пят", "Суб", "Вос"],
+        datasets: [{
+            label: "Иван Иваныч Иванов",
+            backgroundColor: [
+              'rgba(105, 0, 132, .7)',
+            ],
+            borderColor: [
+              'rgba(200, 99, 132, .7)',
+            ],
+            borderWidth: 2,
+            data: [3, 7, 1, 4, 5, 1, 0]
+          },
+          {
+            label: "Петр Петрович Петров",
+            backgroundColor: [
+              'rgba(0, 137, 132, .7)',
+            ],
+            borderColor: [
+              'rgba(0, 10, 130, .7)',
+            ],
+            data: [2, 4, 6, 3, 9, 1, 2]
+          }
+        ]
+      },
+      options: {
+         responsive: true,
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                fontColor: "rgba(90,90,90,1)"
+              },
+              gridLines: {
+                color:"rgba(0,0,0,0.1)",
+                zeroLineColor:"rgba(0,0,0,0.1)"
+              } 
+            }],
+            xAxes: [{
+              ticks: {
+                fontColor: "rgba(90,90,90,1)"
+              },
+              gridLines:{
+                color:"rgba(0,0,0,0.1)",
+                zeroLineColor:"rgba(0,0,0,0.1)"
+              } 
+            }]
+          },
+          legend: {
+              labels: {
+                  fontColor: "rgba(0,0,0,0.5)"
+              }
+          }
+        }
+    });
+
+
+function addNewTask()
+{
+   $('#newTaskModal').modal('show');
+}
+
+function showReports()
+{
+   $('#reportsModal').modal('show');
+}
+
+function toggleCalendar()
+{
+	alert("OK");
+	document.getElementById("mainScreen").style.display = "none";
+	document.getElementById("calendarScreen").style.display = "block";
+}
+
+!function(a){a.fn.datepicker.dates.ru={days:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],daysShort:["Вск","Пнд","Втр","Срд","Чтв","Птн","Суб"],daysMin:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],monthsShort:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],today:"Сегодня",clear:"Очистить",format:"dd.mm.yyyy",weekStart:1,monthsTitle:"Месяцы"}}(jQuery);
+
+$(document).ready(function () {
+   $("#taskDeadlineTime").datepicker({
+            autoclose: true,
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            language: 'ru',
+            orientation: "bottom right"
+      }).on("change", function () {
+   });
+
+   $("#reportTimeFrom").datepicker({
+          autoclose: true,
+          format: 'dd/mm/yyyy',
+          todayHighlight: true,
+          language: 'ru',
+          orientation: "bottom right"
+       }).on("change", function () {
+   });
+   
+   $("#reportTimeTo").datepicker({
+          autoclose: true,
+          format: 'dd/mm/yyyy',
+          todayHighlight: true,
+          language: 'ru',
+          orientation: "bottom right"
+       }).on("change", function () {
+   });   
+});
+
+function addTask()
+{
+   if(isBusyAjax == 1)
+   {
+      return 0;
+   }
+   isBusyAjax = 1;
+
+   var formdata = new FormData();
+   formdata.append("taskName", document.getElementById("taskName").value);
+   formdata.append("taskDescription", document.getElementById("taskDescription").value);
+   formdata.append("taskPriority", document.getElementById("taskPriority").value);
+   formdata.append("taskPoints", document.getElementById("taskPoints").value);
+   formdata.append("taskDeadlineTime", document.getElementById("taskDeadlineTime").value);
+   formdata.append("taskRisk", document.getElementById("taskRisk").value);
+   formdata.append("taskCost", document.getElementById("taskCost").value);
+   formdata.append("assignedUserId", document.getElementById("assignedUserId").value);
+   formdata.append("taskFolder", document.getElementById("taskFolder").value);
+   formdata.append("taskStatus", document.getElementById("taskStatus").value);
+
+   var ajax = new XMLHttpRequest();
+   ajax.upload.addEventListener("progress", progressHandler, false);
+   ajax.addEventListener("load", completeHandler, false);
+   ajax.addEventListener("error", errorHandler, false);
+   ajax.addEventListener("abort", abortHandler, false);
+   ajax.open("POST", "/addTask");
+   ajax.send(formdata);
+}
+
+function getTasks()
+{
+   if(isBusyAjax == 1)
+   {
+      return 0;
+   }
+   isBusyAjax = 1;
+   
+   var formdata = new FormData();
+   formdata.append("x", 1);
+
+   var ajax = new XMLHttpRequest();
+   ajax.upload.addEventListener("progress", progressHandler, false);
+   ajax.addEventListener("load", completeHandlerTasks, false);
+   ajax.addEventListener("error", errorHandler, false);
+   ajax.addEventListener("abort", abortHandler, false);
+   ajax.open("POST", "/getTasks");
+   ajax.send(formdata);
+}
+
+function doImport()
+{
+   if(isBusyAjax == 1)
+   {
+      return 0;
+   }
+   isBusyAjax = 1;
+	   
+   var formdata = new FormData();
+   formdata.append("x", 1);
+
+   var ajax = new XMLHttpRequest();
+   ajax.upload.addEventListener("progress", progressHandler, false);
+   ajax.addEventListener("load", completeHandlerImport, false);
+   ajax.addEventListener("error", errorHandler, false);
+   ajax.addEventListener("abort", abortHandler, false);
+   ajax.open("POST", "/importMail");
+   ajax.send(formdata);
+}
+
+function completeHandler(event)
+{
+   try
+   {
+      var resp = JSON.parse(event.target.responseText);
+   }
+   catch(e)
+   {
+      var resp = new Array();
+      resp = {
+                status: 'error',
+                output: 'Unknown error occurred'
+      };
+   }
+   if(resp.status == "OK")
+   {
+      isBusyAjax = 0;
+      getTasks();
+ 	  $('#newTaskModal').modal('hide');
+   }
+   else
+      alert(resp.output);
+
+   isBusyAjax = 0;
+}
+
+function completeHandlerTasks(event)
+{
+   try
+   {
+      var resp = JSON.parse(event.target.responseText);
+   }
+   catch(e)
+   {
+      var resp = new Array();
+      resp = {
+                status: 'error',
+                output: 'Unknown error occurred'
+      };
+   }
+   if(resp.status == "OK")
+   {
+ 	  document.getElementById("tasksContainer1Backlog").innerHTML = resp.output1Backlog;
+ 	  document.getElementById("tasksContainer1Planning").innerHTML = resp.output1Planning;
+ 	  document.getElementById("tasksContainer1InProgress").innerHTML = resp.output1InProgress;
+ 	  document.getElementById("tasksContainer1Done").innerHTML = resp.output1Done;
+ 	  document.getElementById("tasksContainer1Control").innerHTML = resp.output1Control;
+ 	  document.getElementById("tasksContainer1Deadline").innerHTML = resp.output1Deadline;
+ 	  document.getElementById("tasksContainer1All").innerHTML = resp.output1All;
+
+ 	  document.getElementById("tasksContainer2Backlog").innerHTML = resp.output2Backlog;
+ 	  document.getElementById("tasksContainer2Planning").innerHTML = resp.output2Planning;
+ 	  document.getElementById("tasksContainer2InProgress").innerHTML = resp.output2InProgress;
+ 	  document.getElementById("tasksContainer2Done").innerHTML = resp.output2Done;
+ 	  document.getElementById("tasksContainer2Control").innerHTML = resp.output2Control;
+ 	  document.getElementById("tasksContainer2Deadline").innerHTML = resp.output2Deadline;
+ 	  document.getElementById("tasksContainer2All").innerHTML = resp.output2All;
+
+ 	  document.getElementById("tasksContainer3Backlog").innerHTML = resp.output3Backlog;
+ 	  document.getElementById("tasksContainer3Planning").innerHTML = resp.output3Planning;
+ 	  document.getElementById("tasksContainer3InProgress").innerHTML = resp.output3InProgress;
+ 	  document.getElementById("tasksContainer3Done").innerHTML = resp.output3Done;
+ 	  document.getElementById("tasksContainer3Control").innerHTML = resp.output3Control;
+ 	  document.getElementById("tasksContainer3Deadline").innerHTML = resp.output3Deadline;
+ 	  document.getElementById("tasksContainer3All").innerHTML = resp.output3All;
+   }
+   else
+      alert(resp.output);
+
+   isBusyAjax = 0;
+}
+
+function completeHandlerImport(event)
+{
+   try
+   {
+      var resp = JSON.parse(event.target.responseText);
+   }
+   catch(e)
+   {
+      var resp = new Array();
+      resp = {
+                status: 'error',
+                output: 'Unknown error occurred'
+      };
+   }
+   if(resp.status == "OK")
+   {
+      isBusyAjax = 0;
+      getTasks();
+   }
+   else
+      alert(resp.output);
+
+   isBusyAjax = 0;
+}
+
+function progressHandler(event)
+{
+   isBusyAjax = 0;
+}
+
+function errorHandler(event)
+{
+   isBusyAjax = 0;
+}
+
+function abortHandler(event)
+{
+   isBusyAjax = 0;
+}
+
+var isBusyAjax = 0;
+
+getTasks();
+
+</script>
+</body>
+</html>
